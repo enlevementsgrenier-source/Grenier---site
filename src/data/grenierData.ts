@@ -208,7 +208,7 @@ export const FAQS: FAQItem[] = [
   {
     category: 'don',
     question: 'Comment puis-je faire un don au Grenier de Mézos ?',
-    answer: 'Vous pouvez vous présenter directement à la recyclerie (ZA Saint Jouan à Mézos) pendant nos heures d’ouverture de dépôt (du mardi au samedi). Notre équipe vous accueille avec le sourire et vous aide au déchargement de votre véhicule.'
+    answer: 'Vous pouvez vous présenter directement au bric à brac (65 rue des artisans à Mézos) pendant nos heures d’ouverture de dépôt (du mardi au samedi + le dimanche après-midi). Notre équipe vous accueillera avec le sourire et vous aidera au déchargement de votre véhicule.'
   },
   {
     category: 'enlevement',

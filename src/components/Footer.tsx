@@ -1,12 +1,9 @@
 import React from 'react';
-import { HeartHandshake, Phone, MapPin, Mail, ArrowUp, Github, Heart } from 'lucide-react';
+import { Phone, MapPin, Mail, ArrowUp, Heart } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
+import { Logo } from './Logo';
 
-interface FooterProps {
-  onOpenGitHubModal: () => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onOpenGitHubModal }) => {
+export const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -19,33 +16,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGitHubModal }) => {
           
           {/* Brand & mission */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#2D5A43] text-white flex items-center justify-center">
-                <HeartHandshake className="w-5 h-5 text-[#A3C9A8]" />
-              </div>
-              <div>
-                <h3 className="font-serif text-2xl font-bold text-white tracking-tight">
-                  Le Grenier de Mézos
-                </h3>
-                <p className="text-xs text-[#A3C9A8]">
-                  Recyclerie &amp; Ressourcerie Solidaire
-                </p>
-              </div>
-            </div>
+            <a href="#" className="inline-block py-1">
+              <Logo className="h-16 sm:h-20 w-auto" variant="light" />
+            </a>
 
             <p className="text-sm text-white/75 leading-relaxed max-w-sm">
               Association loi 1901 engagée pour le réemploi citoyen, la réduction des déchets et la solidarité au cœur du Pays de Born et des Landes.
             </p>
-
-            <div className="pt-2">
-              <button
-                onClick={onOpenGitHubModal}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition"
-              >
-                <Github className="w-4 h-4" />
-                <span>Publier le code sur GitHub</span>
-              </button>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -98,7 +75,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGitHubModal }) => {
                 <MapPin className="w-4 h-4 text-[#A3C9A8] shrink-0 mt-1" />
                 <div>
                   <div className="font-semibold text-white">Le Grenier de Mézos</div>
-                  <div>{GRENIER_INFO.address.full}</div>
+                  <div>{GRENIER_INFO.address.street}</div>
                 </div>
               </div>
 

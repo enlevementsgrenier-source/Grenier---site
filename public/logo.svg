@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 175" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lobster&amp;family=Oswald:wght@600;700&amp;display=swap');
+      .script-shadow {
+        font-family: 'Lobster', cursive;
+        font-size: 86px;
+        fill: #55755C;
+      }
+      .script-main {
+        font-family: 'Lobster', cursive;
+        font-size: 86px;
+        fill: #8EAE8F;
+      }
+      .sub-mezos {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 23px;
+        font-weight: 600;
+        letter-spacing: 5px;
+        fill: #EB856E;
+      }
+      .banner-text {
+        font-family: 'Oswald', 'Arial Narrow', sans-serif;
+        font-size: 14.5px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        fill: #F4EFE6;
+      }
+    </style>
+  </defs>
+
+  <!-- "Le Grenier" with 3D drop-shadow -->
+  <text x="232" y="92" text-anchor="middle" class="script-shadow">Le Grenier</text>
+  <text x="230" y="90" text-anchor="middle" class="script-main">Le Grenier</text>
+
+  <!-- "- DE MÉZOS -" -->
+  <text x="230" y="123" text-anchor="middle" class="sub-mezos">- DE MÉZOS -</text>
+
+  <!-- Bottom banner badge: LUTTER CONTRE LE GASPILLAGE ET L'EXCLUSION -->
+  <rect x="20" y="133" width="420" height="32" rx="3" fill="#255853" />
+  <text x="230" y="154" text-anchor="middle" class="banner-text" textLength="390" lengthAdjust="spacingAndGlyphs">LUTTER CONTRE LE GASPILLAGE ET L'EXCLUSION</text>
+</svg>

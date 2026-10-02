@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Phone, MapPin, Mail, ArrowRight, Sparkles, CheckCircle2, Copy, Check } from 'lucide-react';
+import { Phone, MapPin, Mail, Sparkles, CheckCircle2, Copy, Check } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
+import { Logo } from './Logo';
 
 export const Hero: React.FC = () => {
   const [copiedPhone, setCopiedPhone] = useState(false);
@@ -68,19 +69,11 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Action buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-4">
-              <a
-                href="#infos-pratiques"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#2D5A43] text-white font-semibold text-base shadow-sm hover:bg-[#214332] active:scale-[0.98] transition"
-              >
-                <span>Voir les horaires &amp; l'accès</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-
+            {/* Action buttons (mobile phone shortcut) */}
+            <div className="flex flex-wrap items-center gap-4 pt-2 sm:hidden">
               <a
                 href={`tel:${GRENIER_INFO.contact.phoneRaw}`}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#F0E8DC] text-[#2D5A43] font-semibold text-base hover:bg-[#E4DACB] active:scale-[0.98] transition sm:hidden"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#2D5A43] text-white font-semibold text-base shadow-sm active:scale-[0.98] transition w-full"
               >
                 <Phone className="w-4 h-4" />
                 <span>Appeler : {GRENIER_INFO.contact.phone}</span>
@@ -91,13 +84,11 @@ export const Hero: React.FC = () => {
           {/* Right Column: Direct Info Card with Phone, Address, Email */}
           <div className="lg:col-span-5">
             <div className="bg-white rounded-2xl border border-[#DECDBB] shadow-md p-6 sm:p-8 space-y-5 relative overflow-hidden">
-              <div className="border-b border-[#EFE7DC] pb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#796D5E]">
+              <div className="border-b border-[#EFE7DC] pb-4 flex flex-col items-center">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#796D5E] self-start mb-2">
                   Coordonnées officielles
                 </span>
-                <h3 className="font-serif text-2xl font-bold text-[#1E3024] mt-1">
-                  Le Grenier de Mézos
-                </h3>
+                <Logo className="h-20 sm:h-22 w-auto py-1" />
               </div>
 
               {/* Verified Phone */}
