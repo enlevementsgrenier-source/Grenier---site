@@ -1,0 +1,6 @@
+{
+  "name": "Le Grenier de Mézos",
+  "description": "Site web officiel de la recyclerie solidaire Le Grenier de Mézos (Landes). Dépôt de dons, boutique d'occasion, enlèvement d'encombrants, horaires et coordonnées.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
