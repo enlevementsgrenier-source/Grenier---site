@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, MapPin, Mail, Sparkles, CheckCircle2, Copy, Check } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
-import { Logo } from './Logo';
 
 export const Hero: React.FC = () => {
   const [copiedPhone, setCopiedPhone] = useState(false);
@@ -84,11 +83,14 @@ export const Hero: React.FC = () => {
           {/* Right Column: Direct Info Card with Phone, Address, Email */}
           <div className="lg:col-span-5">
             <div className="bg-white rounded-2xl border border-[#DECDBB] shadow-md p-6 sm:p-8 space-y-5 relative overflow-hidden">
-              <div className="border-b border-[#EFE7DC] pb-4 flex flex-col items-center">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#796D5E] self-start mb-2">
+              <div className="border-b border-[#EFE7DC] pb-3 flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#796D5E]">
                   Coordonnées officielles
                 </span>
-                <Logo className="h-20 sm:h-22 w-auto py-1" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F1EC] text-[#2D5A43]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2D5A43]" />
+                  Direct Mézos
+                </span>
               </div>
 
               {/* Verified Phone */}

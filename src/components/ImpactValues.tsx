@@ -30,7 +30,7 @@ export const ImpactValues: React.FC = () => {
               Réemploi &amp; Écologie
             </h3>
             <p className="text-sm text-white/80 leading-relaxed">
-              En prolongeant la durée de vie des meubles, appareils et vêtements, nous évitons l'enfouissement de dizaines de tonnes de déchets et réduisons l'empreinte carbone du Pays de Born.
+              En prolongeant la durée de vie des meubles, appareils et vêtements, nous évitons l'enfouissement de centaines de tonnes de déchets et réduisons l'empreinte carbone du Pays de Born.
             </p>
           </div>
 
@@ -66,16 +66,16 @@ export const ImpactValues: React.FC = () => {
             <div className="text-xs uppercase font-medium text-white/70 mt-1">Associatif &amp; Solidaire</div>
           </div>
           <div>
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#A3C9A8]">+30 T</div>
-            <div className="text-xs uppercase font-medium text-white/70 mt-1">Objets valorisés / an</div>
+            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#A3C9A8]">250 T</div>
+            <div className="text-xs uppercase font-medium text-white/70 mt-1">Tonnes triées / an</div>
           </div>
           <div>
             <div className="font-serif text-3xl sm:text-4xl font-bold text-[#A3C9A8]">6 j / 7</div>
             <div className="text-xs uppercase font-medium text-white/70 mt-1">Activité au quotidien</div>
           </div>
           <div>
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#A3C9A8]">40170</div>
-            <div className="text-xs uppercase font-medium text-white/70 mt-1">Mézos, Pays de Born</div>
+            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#A3C9A8]">+ de 5000</div>
+            <div className="text-xs uppercase font-medium text-white/70 mt-1">Adhérents actifs</div>
           </div>
         </div>
 
