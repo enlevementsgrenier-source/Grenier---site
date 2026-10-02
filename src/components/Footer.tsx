@@ -75,8 +75,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGitHubModal }) => {
                 </a>
               </li>
               <li>
-                <a href="#boutique" className="hover:text-white transition">
-                  Boutique solidaire
+                <a href="#valeurs" className="hover:text-white transition">
+                  Notre Mission &amp; Impact
                 </a>
               </li>
               <li>
@@ -98,8 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGitHubModal }) => {
                 <MapPin className="w-4 h-4 text-[#A3C9A8] shrink-0 mt-1" />
                 <div>
                   <div className="font-semibold text-white">Le Grenier de Mézos</div>
-                  <div>{GRENIER_INFO.address.street}</div>
-                  <div>{GRENIER_INFO.address.postalCode} {GRENIER_INFO.address.city}</div>
+                  <div>{GRENIER_INFO.address.full}</div>
                 </div>
               </div>
 
@@ -116,10 +115,20 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGitHubModal }) => {
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#A3C9A8] shrink-0" />
                 <a
+                  href={`mailto:${GRENIER_INFO.contact.emailContact}`}
+                  className="text-xs hover:text-white transition underline font-medium"
+                >
+                  @: {GRENIER_INFO.contact.emailContact}
+                </a>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-[#A3C9A8] shrink-0" />
+                <a
                   href={`mailto:${GRENIER_INFO.contact.emailEnlevements}`}
                   className="text-xs hover:text-white transition underline"
                 >
-                  {GRENIER_INFO.contact.emailEnlevements}
+                  Enlèvements : {GRENIER_INFO.contact.emailEnlevements}
                 </a>
               </div>
             </div>
@@ -129,18 +138,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGitHubModal }) => {
                 href={GRENIER_INFO.maps.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-[#A3C9A8] hover:text-white underline"
+                className="text-xs text-[#A3C9A8] hover:text-white underline inline-flex items-center gap-1"
               >
-                Fiche Google Maps
-              </a>
-              <span className="text-white/30">•</span>
-              <a
-                href={GRENIER_INFO.maps.directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-[#A3C9A8] hover:text-white underline"
-              >
-                Calculer l'itinéraire
+                <span>Fiche Google Maps</span>
               </a>
             </div>
           </div>

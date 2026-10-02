@@ -11,10 +11,11 @@ Site web one-pager officiel et moderne pour **Le Grenier de Mézos**, recyclerie
 ## 📌 Informations officielles de la recyclerie
 
 - **Nom :** Le Grenier de Mézos (Association Le Grenier)
-- **Adresse :** Zone Artisanale, Quartier Saint Jouan, 40170 Mézos (Landes, Nouvelle-Aquitaine)
+- **Adresse :** 65 rue des artisans, 40170 Mézos (Landes, Nouvelle-Aquitaine)
 - **Téléphone :** `05 58 42 65 00`
+- **Email contact :** `contact@grenier-mezos.fr`
 - **Email enlèvements :** `enlevements.grenier@gmail.com`
-- **Lien Google Maps :** [Ouvrir la fiche Google Maps](https://www.google.com/maps/search/?api=1&query=Le+Grenier+de+M%C3%A9zos+Zone+Artisanale+40170+M%C3%A9zos)
+- **Lien Google Maps :** [Ouvrir la fiche Google Maps](https://www.google.com/maps/search/?api=1&query=65+rue+des+artisans+40170+M%C3%A9zos)
 
 ### 🕒 Horaires d'ouverture
 - **Mardi au Vendredi :** 09h00 - 12h00 / 14h30 - 18h30

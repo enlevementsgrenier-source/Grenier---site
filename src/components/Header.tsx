@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, Clock, Menu, X, Github, HeartHandshake, Compass } from 'lucide-react';
+import React, { useState } from 'react';
+import { Phone, Menu, X, Github, HeartHandshake } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
-import { getCurrentScheduleStatus, ScheduleStatus } from '../utils/schedule';
 
 interface HeaderProps {
   onOpenGitHubModal: () => void;
@@ -9,54 +8,9 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenGitHubModal }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scheduleStatus, setScheduleStatus] = useState<ScheduleStatus>(getCurrentScheduleStatus());
-
-  useEffect(() => {
-    // Update schedule every minute
-    const interval = setInterval(() => {
-      setScheduleStatus(getCurrentScheduleStatus());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E8DFD1] transition-all">
-      {/* Top micro-bar */}
-      <div className="bg-[#2D5A43] text-[#F3EFE6] text-xs py-1.5 px-4">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 font-medium">
-              <MapPin className="w-3.5 h-3.5 text-[#A3C9A8]" />
-              {GRENIER_INFO.address.full}
-            </span>
-            <span className="hidden md:inline text-white/40">•</span>
-            <span className="hidden md:inline text-white/90">
-              Pays de Born, Landes (40)
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
-              <span className={`inline-block w-2 h-2 rounded-full ${
-                scheduleStatus.isOpenNow ? 'bg-[#52D273] animate-pulse' : 'bg-amber-300'
-              }`} />
-              <span className="font-medium text-white/95">
-                {scheduleStatus.statusLabel} ({scheduleStatus.detailLabel})
-              </span>
-            </div>
-
-            <button
-              onClick={onOpenGitHubModal}
-              className="hidden sm:inline-flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/20 text-white px-2.5 py-0.5 rounded transition"
-              title="Exporter le code sur GitHub"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span>Publier sur GitHub</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Main navigation container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
@@ -83,12 +37,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenGitHubModal }) => {
             <a href="#donner" className="hover:text-[#2D5A43] transition">
               Comment donner ?
             </a>
-            <a href="#enlevements" className="hover:text-[#2D5A43] transition">
-              Enlèvements
-            </a>
-            <a href="#boutique" className="hover:text-[#2D5A43] transition">
-              La Boutique
-            </a>
             <a href="#valeurs" className="hover:text-[#2D5A43] transition">
               Notre Mission
             </a>
@@ -107,15 +55,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenGitHubModal }) => {
               <span>{GRENIER_INFO.contact.phone}</span>
             </a>
 
-            <a
-              href={GRENIER_INFO.maps.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-[#2D5A43] text-white hover:bg-[#234634] shadow-sm transition"
+            <button
+              onClick={onOpenGitHubModal}
+              className="inline-flex items-center gap-1.5 text-xs bg-[#2D5A43] hover:bg-[#204231] text-white px-3 py-2 rounded-lg font-medium transition"
+              title="Exporter le code sur GitHub"
             >
-              <Compass className="w-4 h-4 text-[#A3C9A8]" />
-              <span>Itinéraire GPS</span>
-            </a>
+              <Github className="w-4 h-4" />
+              <span>Publier sur GitHub</span>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -147,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenGitHubModal }) => {
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 rounded hover:bg-[#EAE2D5] transition"
             >
-              Horaires &amp; Accès Google Maps
+              Horaires &amp; Accès
             </a>
             <a
               href="#donner"
@@ -155,20 +102,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenGitHubModal }) => {
               className="p-2 rounded hover:bg-[#EAE2D5] transition"
             >
               Comment donner vos objets ?
-            </a>
-            <a
-              href="#enlevements"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded hover:bg-[#EAE2D5] transition"
-            >
-              Demande d'enlèvement à domicile
-            </a>
-            <a
-              href="#boutique"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded hover:bg-[#EAE2D5] transition"
-            >
-              La Boutique solidaire
             </a>
             <a
               href="#valeurs"
@@ -187,22 +120,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenGitHubModal }) => {
           </nav>
 
           <div className="pt-3 border-t border-[#E8DFD1] flex flex-col gap-2.5">
-            <a
-              href={GRENIER_INFO.maps.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-[#2D5A43] text-white font-medium text-sm"
-            >
-              <MapPin className="w-4 h-4" />
-              <span>Ouvrir l'itinéraire Google Maps</span>
-            </a>
-
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
                 onOpenGitHubModal();
               }}
-              className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg border border-[#302B27]/20 text-[#302B27] font-medium text-sm"
+              className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-[#2D5A43] text-white font-medium text-sm"
             >
               <Github className="w-4 h-4" />
               <span>Publier ce site sur GitHub</span>

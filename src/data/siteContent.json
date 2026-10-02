@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "Le Grenier de Mézos",
+    "legalName": "Association Le Grenier",
+    "tagline": "Recyclerie & Ressourcerie Solidaire au cœur des Landes",
+    "description": "Acteur incontournable de l’économie circulaire et solidaire dans le Pays de Born, Le Grenier de Mézos collecte, trie, valorise et redonne vie à vos objets du quotidien.",
+    "address": {
+      "street": "Zone Artisanale, Quartier Saint Jouan",
+      "postalCode": "40170",
+      "city": "Mézos",
+      "department": "Landes (40)",
+      "region": "Nouvelle-Aquitaine",
+      "full": "Zone Artisanale, Quartier Saint Jouan, 40170 Mézos",
+      "accessDetails": "Facilement accessible avec grand parking gratuit et zone de déchargement dédiée pour les dépôts volumineux."
+    },
+    "contact": {
+      "phone": "05 58 42 65 00",
+      "phoneRaw": "+33558426500",
+      "emailEnlevements": "enlevements.grenier@gmail.com"
+    },
+    "maps": {
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Le+Grenier+de+M%C3%A9zos+Zone+Artisanale+40170+M%C3%A9zos",
+      "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=Le+Grenier+de+M%C3%A9zos+40170+M%C3%A9zos",
+      "wazeUrl": "https://waze.com/ul?q=Le%20Grenier%20de%20Mezos%2040170",
+      "lat": 44.0765,
+      "lng": -1.1685
+    }
+  },
+  "openingHours": [
+    {
+      "day": "Lundi",
+      "dayIndex": 1,
+      "morning": null,
+      "afternoon": null,
+      "isOpen": false,
+      "notes": "Fermé au public (journée dédiée au tri, réparations et ateliers)"
+    },
+    {
+      "day": "Mardi",
+      "dayIndex": 2,
+      "morning": "09h00 - 12h00",
+      "afternoon": "14h30 - 18h30",
+      "isOpen": true,
+      "notes": "Dépôts & Boutique ouverts"
+    },
+    {
+      "day": "Mercredi",
+      "dayIndex": 3,
+      "morning": "09h00 - 12h00",
+      "afternoon": "14h30 - 18h30",
+      "isOpen": true,
+      "notes": "Dépôts & Boutique ouverts"
+    },
+    {
+      "day": "Jeudi",
+      "dayIndex": 4,
+      "morning": "09h00 - 12h00",
+      "afternoon": "14h30 - 18h30",
+      "isOpen": true,
+      "notes": "Dépôts & Boutique ouverts"
+    },
+    {
+      "day": "Vendredi",
+      "dayIndex": 5,
+      "morning": "09h00 - 12h00",
+      "afternoon": "14h30 - 18h30",
+      "isOpen": true,
+      "notes": "Dépôts & Boutique ouverts"
+    },
+    {
+      "day": "Samedi",
+      "dayIndex": 6,
+      "morning": "10h00 - 12h00",
+      "afternoon": "14h30 - 18h30",
+      "isOpen": true,
+      "notes": "Grande journée chine et dépôts"
+    },
+    {
+      "day": "Dimanche",
+      "dayIndex": 0,
+      "morning": null,
+      "afternoon": "14h30 - 18h30",
+      "isOpen": true,
+      "notes": "Ouvert tout l’après-midi pour chiner"
+    }
+  ],
+  "banner": {
+    "enabled": false,
+    "message": "Bienvenue au Grenier de Mézos ! Dépôt de dons du mardi au samedi et enlèvement à domicile sur rendez-vous.",
+    "type": "info"
+  }
+}

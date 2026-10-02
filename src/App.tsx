@@ -8,8 +8,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { PracticalInfo } from './components/PracticalInfo';
 import { DonationsAndPickups } from './components/DonationsAndPickups';
-import { AcceptedItemsGuide } from './components/AcceptedItemsGuide';
-import { ShopShowcase } from './components/ShopShowcase';
 import { ImpactValues } from './components/ImpactValues';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
@@ -20,7 +18,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#2C2724]">
-      {/* Header with live hours badge and navigation */}
+      {/* Header with navigation & GitHub modal trigger */}
       <Header onOpenGitHubModal={() => setIsGitHubModalOpen(true)} />
 
       {/* Main one-pager content */}
@@ -28,17 +26,11 @@ export default function App() {
         {/* Hero Section */}
         <Hero />
 
-        {/* Practical info: Address, Phone, Interactive Map, Detailed Hours */}
+        {/* Practical info: Address, Detailed Hours & Map */}
         <PracticalInfo />
 
-        {/* How to donate & Home Pickups Request simulator */}
+        {/* How to donate & Home Pickups */}
         <DonationsAndPickups />
-
-        {/* Guide of accepted & refused items */}
-        <AcceptedItemsGuide />
-
-        {/* Shop departments showcase */}
-        <ShopShowcase />
 
         {/* Impact & circular economy in Landes */}
         <ImpactValues />

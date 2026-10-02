@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Clock, Mail, Navigation, ExternalLink, Calendar, Check, Copy, Car, Info } from 'lucide-react';
+import { MapPin, Calendar, Check, Copy, Car, ExternalLink } from 'lucide-react';
 import { GRENIER_INFO, OPENING_HOURS } from '../data/grenierData';
 import { getCurrentScheduleStatus } from '../utils/schedule';
 
 export const PracticalInfo: React.FC = () => {
-  const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(false);
   const status = getCurrentScheduleStatus();
-
-  const handleCopyPhone = () => {
-    navigator.clipboard.writeText(GRENIER_INFO.contact.phone);
-    setCopiedPhone(true);
-    setTimeout(() => setCopiedPhone(false), 2000);
-  };
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(GRENIER_INFO.address.full);
@@ -21,30 +14,14 @@ export const PracticalInfo: React.FC = () => {
   };
 
   return (
-    <section id="infos-pratiques" className="py-16 sm:py-20 bg-[#F4EFE6]/60 border-b border-[#E8DEC7]">
+    <section id="infos-pratiques" className="py-12 sm:py-16 bg-[#F4EFE6]/60 border-b border-[#E8DEC7]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3EDE6] text-[#244E38] text-xs font-semibold uppercase tracking-wider mb-3">
-            <MapPin className="w-3.5 h-3.5 text-[#2D5A43]" />
-            <span>Localisation &amp; Horaires d'ouverture</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1E3024] tracking-tight">
-            Venir au Grenier de Mézos
-          </h2>
-          <p className="mt-3 text-base sm:text-lg text-[#5B5045]">
-            Retrouvez toutes les informations pratiques pour nous rendre visite, déposer vos objets ou nous contacter facilement.
-          </p>
-        </div>
-
-        {/* 2-Columns grid: Left = Hours & Contacts / Right = Interactive Map & Access */}
+        {/* 2-Columns grid: Left = Hours Table / Right = Interactive Map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Hours Table & Contact details */}
+          {/* Left Column: Hours Table */}
           <div className="lg:col-span-6 space-y-6">
-            
-            {/* Opening hours Card */}
             <div className="bg-white rounded-2xl border border-[#DECDBB] shadow-xs p-6 sm:p-7">
               <div className="flex items-center justify-between pb-4 border-b border-[#EDE3D6]">
                 <div className="flex items-center gap-2.5">
@@ -55,9 +32,6 @@ export const PracticalInfo: React.FC = () => {
                     <h3 className="font-serif text-xl font-bold text-[#1F3D2E]">
                       Horaires d'ouverture
                     </h3>
-                    <p className="text-xs text-[#716556]">
-                      Boutique solidaire et quai de déchargement
-                    </p>
                   </div>
                 </div>
 
@@ -117,73 +91,11 @@ export const PracticalInfo: React.FC = () => {
                   );
                 })}
               </div>
-
-              <div className="mt-4 pt-3 border-t border-[#EDE3D6] flex items-center gap-2 text-xs text-[#6B5F52]">
-                <Info className="w-4 h-4 text-[#2D5A43] shrink-0" />
-                <span>
-                  Pour les dons volumineux en remorque ou utilitaire, présentez-vous de préférence du mardi au vendredi matin.
-                </span>
-              </div>
             </div>
-
-            {/* Quick Contacts Block */}
-            <div className="bg-white rounded-2xl border border-[#DECDBB] shadow-xs p-6 space-y-4">
-              <h3 className="font-serif text-lg font-bold text-[#1F3D2E]">
-                Coordonnées directes
-              </h3>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                {/* Phone Card */}
-                <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E9E0D4] flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Phone className="w-4 h-4 text-[#2D5A43]" />
-                    <div>
-                      <div className="text-[11px] font-semibold uppercase text-[#7A6D5E]">
-                        Téléphone
-                      </div>
-                      <a
-                        href={`tel:${GRENIER_INFO.contact.phoneRaw}`}
-                        className="font-bold text-sm text-[#1F3D2E] hover:text-[#2D5A43]"
-                      >
-                        {GRENIER_INFO.contact.phone}
-                      </a>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleCopyPhone}
-                    className="p-1.5 text-[#675B4E] hover:text-[#1F3D2E]"
-                    title="Copier le numéro"
-                  >
-                    {copiedPhone ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                  </button>
-                </div>
-
-                {/* Email Card */}
-                <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E9E0D4] flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Mail className="w-4 h-4 text-[#2D5A43]" />
-                    <div className="truncate">
-                      <div className="text-[11px] font-semibold uppercase text-[#7A6D5E]">
-                        Email Enlèvements
-                      </div>
-                      <a
-                        href={`mailto:${GRENIER_INFO.contact.emailEnlevements}`}
-                        className="font-medium text-xs text-[#1F3D2E] hover:underline truncate block"
-                      >
-                        {GRENIER_INFO.contact.emailEnlevements}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
 
-          {/* Right Column: Google Maps & Practical Access details */}
+          {/* Right Column: Google Maps & Practical Access */}
           <div className="lg:col-span-6 space-y-6">
-            
-            {/* Map Preview Card */}
             <div className="bg-white rounded-2xl border border-[#DECDBB] shadow-xs overflow-hidden">
               <div className="p-5 border-b border-[#EDE3D6] flex items-center justify-between">
                 <div>
@@ -230,84 +142,42 @@ export const PracticalInfo: React.FC = () => {
                         Le Grenier de Mézos
                       </div>
                       <div className="text-[11px] text-[#5C5144]">
-                        Zone Artisanale St Jouan, 40170 Mézos
+                        {GRENIER_INFO.address.full}
                       </div>
                     </div>
                   </div>
 
                   <a
-                    href={GRENIER_INFO.maps.directionsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#2D5A43] text-white text-xs font-semibold hover:bg-[#204030] transition shrink-0"
-                  >
-                    <span>Itinéraire</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-
-              {/* Navigation buttons */}
-              <div className="p-4 bg-[#FAF7F2] border-t border-[#EFE5D8] flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2 text-xs text-[#5D5144]">
-                  <Car className="w-4 h-4 text-[#2D5A43]" />
-                  <span>Grand parking gratuit sur place</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <a
                     href={GRENIER_INFO.maps.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#D5C9B8] text-xs font-semibold text-[#2D5A43] hover:bg-[#F2EDE4] transition"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2D5A43] text-white text-xs font-semibold hover:bg-[#204030] transition shrink-0"
                   >
+                    <span>Voir sur Google Maps</span>
                     <ExternalLink className="w-3 h-3" />
-                    <span>Google Maps</span>
-                  </a>
-
-                  <a
-                    href={GRENIER_INFO.maps.wazeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#D5C9B8] text-xs font-semibold text-[#342F2A] hover:bg-[#F2EDE4] transition"
-                  >
-                    <Navigation className="w-3 h-3 text-sky-600" />
-                    <span>Waze</span>
                   </a>
                 </div>
               </div>
 
-            </div>
+              {/* Navigation footer */}
+              <div className="p-4 bg-[#FAF7F2] border-t border-[#EFE5D8] flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 text-xs text-[#5D5144]">
+                  <Car className="w-4 h-4 text-[#2D5A43]" />
+                  <span>Parking disponible sur place</span>
+                </div>
 
-            {/* Communes and distances */}
-            <div className="bg-white rounded-2xl border border-[#DECDBB] shadow-xs p-6 space-y-3">
-              <h4 className="font-serif text-base font-bold text-[#1F3D2E]">
-                À quelle distance de chez vous ?
-              </h4>
-              <p className="text-xs text-[#6C5E50]">
-                Idéalement situé au cœur du Pays de Born et de la Côte Landaise :
-              </p>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-center">
-                <div className="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#EBE1D3]">
-                  <div className="text-xs font-semibold text-[#2D5A43]">Mimizan</div>
-                  <div className="text-[11px] text-[#766A5D]">~ 18 min</div>
-                </div>
-                <div className="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#EBE1D3]">
-                  <div className="text-xs font-semibold text-[#2D5A43]">Lit-et-Mixe</div>
-                  <div className="text-[11px] text-[#766A5D]">~ 14 min</div>
-                </div>
-                <div className="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#EBE1D3]">
-                  <div className="text-xs font-semibold text-[#2D5A43]">Castets</div>
-                  <div className="text-[11px] text-[#766A5D]">~ 22 min</div>
-                </div>
-                <div className="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#EBE1D3]">
-                  <div className="text-xs font-semibold text-[#2D5A43]">Onesse-Laharie</div>
-                  <div className="text-[11px] text-[#766A5D]">~ 10 min</div>
-                </div>
+                <a
+                  href={GRENIER_INFO.maps.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#D5C9B8] text-xs font-semibold text-[#2D5A43] hover:bg-[#F2EDE4] transition"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  <span>Google Maps</span>
+                </a>
               </div>
-            </div>
 
+            </div>
           </div>
 
         </div>

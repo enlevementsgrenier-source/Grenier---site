@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration & Mise à jour GitHub REST API - Le Grenier de Mézos</title>
+  <style>
+    :root {
+      --primary: #2D5A43;
+      --primary-dark: #1E3D2E;
+      --bg: #FAF7F2;
+      --card-bg: #FFFFFF;
+      --text: #2C2724;
+      --border: #DCD0C0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      margin: 0;
+      padding: 24px 16px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 24px;
+      color: var(--primary-dark);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge {
+      background: #E8EFEA;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #554A3E;
+      margin-top: 14px;
+      margin-bottom: 4px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #FFF;
+      color: inherit;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(45, 90, 67, 0.15);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    button.btn-primary {
+      margin-top: 24px;
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button.btn-primary:hover {
+      background: var(--primary-dark);
+    }
+    button.btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .status-box {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      display: none;
+    }
+    .status-box.success {
+      display: block;
+      background: #EDF7F1;
+      border: 1px solid #A3D4B6;
+      color: #174229;
+    }
+    .status-box.error {
+      display: block;
+      background: #FDF2F2;
+      border: 1px solid #F9B4B4;
+      color: #9B1C1C;
+    }
+    .status-box.loading {
+      display: block;
+      background: #F4EFE6;
+      border: 1px solid #D5C7B4;
+      color: #554A3E;
+    }
+    pre {
+      background: #1F2924;
+      color: #A3D4B6;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      overflow-x: auto;
+    }
+    .hint {
+      font-size: 12px;
+      color: #6C5F51;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <span class="badge">Espace Administration Autonome</span>
+    <h1>🌿 Le Grenier de Mézos &bull; Éditeur GitHub REST API</h1>
+    <p style="font-size: 14px; color: #554A3E; margin-bottom: 20px;">
+      Cette page autonome permet de modifier les données du site et de les enregistrer directement sur votre dépôt GitHub via une requête HTTP <code>PUT</code> authentifiée par un Personal Access Token (PAT).
+    </p>
+
+    <!-- GitHub Connection Config -->
+    <fieldset style="border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+      <legend style="font-size: 13px; font-weight: 700; color: var(--primary-dark); padding: 0 8px;">
+        1. Configuration GitHub
+      </legend>
+
+      <div class="grid">
+        <div>
+          <label for="ghToken">Personal Access Token (PAT) * :</label>
+          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          <div class="hint">Token avec scope <code>repo</code> ou permission <code>Contents: Write</code>.</div>
+        </div>
+
+        <div>
+          <label for="ghOwner">Compte GitHub (Owner) * :</label>
+          <input type="text" id="ghOwner" placeholder="votre-nom-utilisateur">
+        </div>
+
+        <div>
+          <label for="ghRepo">Nom du Dépôt * :</label>
+          <input type="text" id="ghRepo" value="le-grenier-de-mezos">
+        </div>
+
+        <div>
+          <label for="ghBranch">Branche :</label>
+          <input type="text" id="ghBranch" value="main">
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top: 10px;">
+        <div>
+          <label for="ghFilePath">Chemin du fichier sur GitHub :</label>
+          <input type="text" id="ghFilePath" value="src/data/siteContent.json">
+        </div>
+        <div>
+          <label for="ghCommitMessage">Message de commit :</label>
+          <input type="text" id="ghCommitMessage" value="Mise à jour du contenu depuis l'interface admin">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Site Information Form -->
+    <fieldset style="border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+      <legend style="font-size: 13px; font-weight: 700; color: var(--primary-dark); padding: 0 8px;">
+        2. Données du site à sauvegarder
+      </legend>
+
+      <div class="grid">
+        <div>
+          <label for="siteName">Nom de la recyclerie :</label>
+          <input type="text" id="siteName" value="Le Grenier de Mézos">
+        </div>
+        <div>
+          <label for="sitePhone">Téléphone :</label>
+          <input type="text" id="sitePhone" value="05 58 42 65 00">
+        </div>
+        <div>
+          <label for="siteEmail">Email Enlèvements :</label>
+          <input type="text" id="siteEmail" value="enlevements.grenier@gmail.com">
+        </div>
+        <div>
+          <label for="siteAddress">Adresse :</label>
+          <input type="text" id="siteAddress" value="Zone Artisanale, Quartier Saint Jouan, 40170 Mézos">
+        </div>
+      </div>
+
+      <label for="siteTagline">Slogan / Sous-titre :</label>
+      <input type="text" id="siteTagline" value="Recyclerie & Ressourcerie Solidaire au cœur des Landes">
+
+      <label for="bannerMessage">Bandeau d'actualité (optionnel) :</label>
+      <input type="text" id="bannerMessage" placeholder="Ex: Vente spéciale samedi de 10h à 18h30 !">
+    </fieldset>
+
+    <button id="saveBtn" class="btn-primary" onclick="executeGitHubPutRequest()">
+      🚀 Pousser les modifications sur GitHub (Requête PUT)
+    </button>
+
+    <div id="statusBox" class="status-box"></div>
+  </div>
+
+  <script>
+    // Encodage UTF-8 vers Base64 compatible avec les caractères français
+    function utf8ToBase64(str) {
+      const bytes = new TextEncoder().encode(str);
+      let binary = '';
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+
+    async function executeGitHubPutRequest() {
+      const token = document.getElementById('ghToken').value.trim();
+      const owner = document.getElementById('ghOwner').value.trim();
+      const repo = document.getElementById('ghRepo').value.trim();
+      const branch = document.getElementById('ghBranch').value.trim() || 'main';
+      const filePath = document.getElementById('ghFilePath').value.trim() || 'src/data/siteContent.json';
+      const commitMessage = document.getElementById('ghCommitMessage').value.trim() || 'Mise à jour du contenu';
+
+      const statusBox = document.getElementById('statusBox');
+      const saveBtn = document.getElementById('saveBtn');
+
+      if (!token) {
+        showStatus('error', 'Veuillez saisir votre Personal Access Token (PAT) GitHub.');
+        return;
+      }
+      if (!owner || !repo) {
+        showStatus('error', 'Veuillez renseigner le compte propriétaire et le nom du dépôt GitHub.');
+        return;
+      }
+
+      saveBtn.disabled = true;
+      showStatus('loading', '⏳ 1/2 : Récupération du SHA actuel du fichier sur GitHub...');
+
+      try {
+        const cleanPath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
+        const getUrl = `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${cleanPath}?ref=${encodeURIComponent(branch)}`;
+
+        // Étape 1 : Récupérer le SHA actuel (nécessaire pour modifier un fichier existant)
+        let currentSha = null;
+        const getRes = await fetch(getUrl, {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        });
+
+        if (getRes.status === 401) {
+          throw new Error('Token GitHub invalide ou expiré (Erreur 401 Bad credentials).');
+        } else if (getRes.status === 404) {
+          // Le fichier n'existe pas encore, il sera créé
+        } else if (!getRes.ok) {
+          const errData = await getRes.json().catch(() => ({}));
+          throw new Error(errData.message || 'Erreur GitHub HTTP ' + getRes.status);
+        } else {
+          const fileData = await getRes.json();
+          currentSha = fileData.sha;
+        }
+
+        showStatus('loading', '⏳ 2/2 : Envoi de la requête PUT avec le nouveau contenu...');
+
+        // Préparation des données JSON à sauvegarder
+        const updatedData = {
+          info: {
+            name: document.getElementById('siteName').value,
+            legalName: 'Association Le Grenier',
+            tagline: document.getElementById('siteTagline').value,
+            address: {
+              street: 'Zone Artisanale, Quartier Saint Jouan',
+              postalCode: '40170',
+              city: 'Mézos',
+              department: 'Landes (40)',
+              region: 'Nouvelle-Aquitaine',
+              full: document.getElementById('siteAddress').value,
+              accessDetails: 'Grand parking gratuit sur place.'
+            },
+            contact: {
+              phone: document.getElementById('sitePhone').value,
+              phoneRaw: document.getElementById('sitePhone').value.replace(/[^0-9+]/g, ''),
+              emailEnlevements: document.getElementById('siteEmail').value
+            },
+            maps: {
+              googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Le+Grenier+de+M%C3%A9zos+Zone+Artisanale+40170+M%C3%A9zos',
+              directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Le+Grenier+de+M%C3%A9zos+40170+M%C3%A9zos',
+              wazeUrl: 'https://waze.com/ul?q=Le%20Grenier%20de%20Mezos%2040170',
+              lat: 44.0765,
+              lng: -1.1685
+            }
+          },
+          banner: {
+            enabled: Boolean(document.getElementById('bannerMessage').value.trim()),
+            message: document.getElementById('bannerMessage').value.trim(),
+            type: 'info'
+          },
+          lastUpdated: new Date().toISOString()
+        };
+
+        const jsonString = JSON.stringify(updatedData, null, 2);
+        const base64Content = utf8ToBase64(jsonString);
+
+        // Étape 2 : Requête PUT
+        const payload = {
+          message: commitMessage,
+          content: base64Content,
+          branch: branch
+        };
+        if (currentSha) {
+          payload.sha = currentSha;
+        }
+
+        const putUrl = `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${cleanPath}`;
+        const putRes = await fetch(putUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json',
+            'X-GitHub-Api-Version': '2022-11-28'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const putData = await putRes.json().catch(() => ({}));
+
+        if (!putRes.ok) {
+          throw new Error('Erreur ' + putRes.status + ' : ' + (putData.message || 'Échec de la requête PUT.'));
+        }
+
+        const commitSha = putData?.commit?.sha ? putData.commit.sha.substring(0, 7) : '';
+        const commitUrl = putData?.commit?.html_url || '';
+
+        showStatus(
+          'success',
+          `✅ <strong>Succès !</strong> Modifications enregistrées avec succès sur GitHub !<br>` +
+          `Commit : <strong>${commitSha}</strong> &bull; ` +
+          `<a href="${commitUrl}" target="_blank" style="color: #174229; font-weight: bold; text-decoration: underline;">Voir le commit sur GitHub &rarr;</a>`
+        );
+      } catch (err) {
+        showStatus('error', '❌ Échec : ' + err.message);
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    function showStatus(type, htmlMessage) {
+      const box = document.getElementById('statusBox');
+      box.className = 'status-box ' + type;
+      box.innerHTML = htmlMessage;
+    }
+  </script>
+</body>
+</html>

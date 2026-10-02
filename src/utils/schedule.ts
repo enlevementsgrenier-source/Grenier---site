@@ -1,4 +1,5 @@
 import { OPENING_HOURS } from '../data/grenierData';
+import { OpeningHoursDay } from '../types';
 
 export interface ScheduleStatus {
   isOpenNow: boolean;
@@ -9,8 +10,8 @@ export interface ScheduleStatus {
   currentDayIndex: number;
 }
 
-export function getCurrentScheduleStatus(): ScheduleStatus {
-  // Get date in Europe/Paris timezone
+export function getCurrentScheduleStatus(customHours?: OpeningHoursDay[]): ScheduleStatus {
+  const hours = customHours || OPENING_HOURS;
   const now = new Date();
   
   // Format current Paris time
@@ -48,7 +49,7 @@ export function getCurrentScheduleStatus(): ScheduleStatus {
   };
   const currentDayIndex = dayIndexMap[shortDay] ?? now.getDay();
   
-  const todaySchedule = OPENING_HOURS.find(d => d.dayIndex === currentDayIndex);
+  const todaySchedule = hours.find(d => d.dayIndex === currentDayIndex);
 
   if (!todaySchedule || !todaySchedule.isOpen) {
     return {
@@ -65,9 +66,6 @@ export function getCurrentScheduleStatus(): ScheduleStatus {
   let isMorningOpen = false;
   let isAfternoonOpen = false;
   
-  // Mardi to Vendredi : 9h00 - 12h00 / 14h30 - 18h30
-  // Samedi : 10h00 - 12h00 / 14h30 - 18h30
-  // Dimanche : 14h30 - 18h30
   if (currentDayIndex >= 2 && currentDayIndex <= 5) {
     isMorningOpen = currentTimeDec >= 9.0 && currentTimeDec < 12.0;
     isAfternoonOpen = currentTimeDec >= 14.5 && currentTimeDec < 18.5;

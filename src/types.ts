@@ -28,3 +28,69 @@ export interface ItemAcceptanceStatus {
   refused: string[];
   advice: string;
 }
+
+export interface NoticeBanner {
+  enabled: boolean;
+  message: string;
+  type: 'info' | 'warning' | 'alert';
+}
+
+export interface SiteInfo {
+  name: string;
+  legalName: string;
+  tagline: string;
+  description: string;
+  address: {
+    street: string;
+    postalCode: string;
+    city: string;
+    department: string;
+    region: string;
+    full: string;
+    accessDetails: string;
+  };
+  contact: {
+    phone: string;
+    phoneRaw: string;
+    emailEnlevements: string;
+  };
+  maps: {
+    googleMapsUrl: string;
+    directionsUrl: string;
+    wazeUrl: string;
+    lat: number;
+    lng: number;
+  };
+}
+
+export interface SiteContent {
+  info: SiteInfo;
+  openingHours: OpeningHoursDay[];
+  banner: NoticeBanner;
+}
+
+export interface GitHubConfig {
+  token: string;
+  owner: string;
+  repo: string;
+  branch: string;
+  filePath: string;
+}
+
+export interface GitHubUpdateParams {
+  token: string;
+  owner: string;
+  repo: string;
+  branch: string;
+  filePath: string;
+  content: string;
+  commitMessage: string;
+}
+
+export interface GitHubUpdateResult {
+  success: boolean;
+  commitUrl?: string;
+  commitSha?: string;
+  message: string;
+  status?: number;
+}

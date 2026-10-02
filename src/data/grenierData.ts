@@ -8,26 +8,25 @@ export const GRENIER_INFO = {
   
   // Coordonnées exactes vérifiées
   address: {
-    street: 'Zone Artisanale, Quartier Saint Jouan',
+    street: '65 rue des artisans',
     postalCode: '40170',
     city: 'Mézos',
     department: 'Landes (40)',
     region: 'Nouvelle-Aquitaine',
-    full: 'Zone Artisanale, Quartier Saint Jouan, 40170 Mézos',
-    accessDetails: 'Facilement accessible avec grand parking gratuit et zone de déchargement dédiée pour les dépôts volumineux.'
+    full: '65 rue des artisans, 40170 Mézos',
+    accessDetails: 'Facilement accessible avec parking sur place.'
   },
   
   contact: {
     phone: '05 58 42 65 00',
     phoneRaw: '+33558426500',
+    emailContact: 'contact@grenier-mezos.fr',
     emailEnlevements: 'enlevements.grenier@gmail.com',
   },
   
   maps: {
-    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Le+Grenier+de+M%C3%A9zos+Zone+Artisanale+40170+M%C3%A9zos',
-    directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Le+Grenier+de+M%C3%A9zos+40170+M%C3%A9zos',
-    wazeUrl: 'https://waze.com/ul?q=Le%20Grenier%20de%20Mezos%2040170',
-    // Latitude et longitude de la ZA St Jouan à Mézos
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=65+rue+des+artisans+40170+M%C3%A9zos',
+    // Latitude et longitude de la rue des artisans à Mézos
     lat: 44.0765,
     lng: -1.1685,
   }
