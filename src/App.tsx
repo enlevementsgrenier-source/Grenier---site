@@ -7,6 +7,7 @@ import React from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { PracticalInfo } from './components/PracticalInfo';
+import { PhotoCarousel } from './components/PhotoCarousel';
 import { DonationsAndPickups } from './components/DonationsAndPickups';
 import { ImpactValues } from './components/ImpactValues';
 import { FAQ } from './components/FAQ';
@@ -25,6 +26,9 @@ export default function App() {
 
         {/* Practical info: Address, Detailed Hours & Map */}
         <PracticalInfo />
+
+        {/* Photo Carousel: Horizontal scrolling banner with arrows */}
+        <PhotoCarousel />
 
         {/* How to donate & Home Pickups */}
         <DonationsAndPickups />
