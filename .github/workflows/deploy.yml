@@ -27,6 +27,5 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          local_path: 'dist/'
-          remote_path: 'www/'
-          clear_remote: true
+          localPath: 'dist/'
+          remotePath: 'www/'
