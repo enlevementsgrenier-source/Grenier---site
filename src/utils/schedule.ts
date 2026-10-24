@@ -55,36 +55,33 @@ export function getCurrentScheduleStatus(customHours?: OpeningHoursDay[]): Sched
     return {
       isOpenNow: false,
       statusLabel: 'Fermé aujourd’hui',
-      detailLabel: 'Réouverture mardi à 09h00',
+      detailLabel: 'Réouverture mardi à 10h00',
       badgeColor: 'slate',
       currentDayName,
       currentDayIndex
     };
   }
 
-  // Parse today's morning and afternoon ranges
-  let isMorningOpen = false;
-  let isAfternoonOpen = false;
-  
-  if (currentDayIndex >= 2 && currentDayIndex <= 5) {
-    isMorningOpen = currentTimeDec >= 9.0 && currentTimeDec < 12.0;
-    isAfternoonOpen = currentTimeDec >= 14.5 && currentTimeDec < 18.5;
+  // Mardi à Samedi : 10h00 - 12h00 & 13h30 - 17h30
+  if (currentDayIndex >= 2 && currentDayIndex <= 6) {
+    const isMorningOpen = currentTimeDec >= 10.0 && currentTimeDec < 12.0;
+    const isAfternoonOpen = currentTimeDec >= 13.5 && currentTimeDec < 17.5;
     
     if (isMorningOpen) {
       return {
         isOpenNow: true,
         statusLabel: 'Ouvert actuellement',
-        detailLabel: 'Ferme à 12h00 (reprise à 14h30)',
+        detailLabel: 'Ferme à 12h00 (reprise à 13h30)',
         badgeColor: 'emerald',
         currentDayName,
         currentDayIndex
       };
     }
-    if (currentTimeDec >= 12.0 && currentTimeDec < 14.5) {
+    if (currentTimeDec >= 12.0 && currentTimeDec < 13.5) {
       return {
         isOpenNow: false,
         statusLabel: 'Pause méridienne',
-        detailLabel: 'Réouverture cet après-midi à 14h30',
+        detailLabel: 'Réouverture cet après-midi à 13h30',
         badgeColor: 'amber',
         currentDayName,
         currentDayIndex
@@ -94,61 +91,7 @@ export function getCurrentScheduleStatus(customHours?: OpeningHoursDay[]): Sched
       return {
         isOpenNow: true,
         statusLabel: 'Ouvert actuellement',
-        detailLabel: 'Ferme ce soir à 18h30',
-        badgeColor: 'emerald',
-        currentDayName,
-        currentDayIndex
-      };
-    }
-    if (currentTimeDec < 9.0) {
-      return {
-        isOpenNow: false,
-        statusLabel: 'Fermé pour le moment',
-        detailLabel: 'Ouvre aujourd’hui à 09h00',
-        badgeColor: 'slate',
-        currentDayName,
-        currentDayIndex
-      };
-    }
-    return {
-      isOpenNow: false,
-      statusLabel: 'Fermé pour la nuit',
-      detailLabel: 'Réouverture demain à 09h00',
-      badgeColor: 'slate',
-      currentDayName,
-      currentDayIndex
-    };
-  }
-
-  if (currentDayIndex === 6) { // Samedi
-    isMorningOpen = currentTimeDec >= 10.0 && currentTimeDec < 12.0;
-    isAfternoonOpen = currentTimeDec >= 14.5 && currentTimeDec < 18.5;
-
-    if (isMorningOpen) {
-      return {
-        isOpenNow: true,
-        statusLabel: 'Ouvert actuellement',
-        detailLabel: 'Ferme à 12h00 (reprise à 14h30)',
-        badgeColor: 'emerald',
-        currentDayName,
-        currentDayIndex
-      };
-    }
-    if (currentTimeDec >= 12.0 && currentTimeDec < 14.5) {
-      return {
-        isOpenNow: false,
-        statusLabel: 'Pause de midi',
-        detailLabel: 'Réouverture à 14h30',
-        badgeColor: 'amber',
-        currentDayName,
-        currentDayIndex
-      };
-    }
-    if (isAfternoonOpen) {
-      return {
-        isOpenNow: true,
-        statusLabel: 'Ouvert actuellement',
-        detailLabel: 'Ferme ce soir à 18h30',
+        detailLabel: 'Ferme ce soir à 17h30',
         badgeColor: 'emerald',
         currentDayName,
         currentDayIndex
@@ -164,33 +107,35 @@ export function getCurrentScheduleStatus(customHours?: OpeningHoursDay[]): Sched
         currentDayIndex
       };
     }
+    // After 17h30
     return {
       isOpenNow: false,
       statusLabel: 'Fermé pour la nuit',
-      detailLabel: 'Réouverture dimanche à 14h30',
+      detailLabel: currentDayIndex === 6 ? 'Réouverture dimanche à 13h30' : 'Réouverture demain à 10h00',
       badgeColor: 'slate',
       currentDayName,
       currentDayIndex
     };
   }
 
-  if (currentDayIndex === 0) { // Dimanche
-    isAfternoonOpen = currentTimeDec >= 14.5 && currentTimeDec < 18.5;
+  // Dimanche : 13h30 - 17h30
+  if (currentDayIndex === 0) {
+    const isAfternoonOpen = currentTimeDec >= 13.5 && currentTimeDec < 17.5;
     if (isAfternoonOpen) {
       return {
         isOpenNow: true,
         statusLabel: 'Ouvert actuellement',
-        detailLabel: 'Ferme ce soir à 18h30',
+        detailLabel: 'Ferme ce soir à 17h30',
         badgeColor: 'emerald',
         currentDayName,
         currentDayIndex
       };
     }
-    if (currentTimeDec < 14.5) {
+    if (currentTimeDec < 13.5) {
       return {
         isOpenNow: false,
         statusLabel: 'Ouverture cet après-midi',
-        detailLabel: 'Ouvre aujourd’hui de 14h30 à 18h30',
+        detailLabel: 'Ouvre aujourd’hui de 13h30 à 17h30',
         badgeColor: 'amber',
         currentDayName,
         currentDayIndex
@@ -199,7 +144,7 @@ export function getCurrentScheduleStatus(customHours?: OpeningHoursDay[]): Sched
     return {
       isOpenNow: false,
       statusLabel: 'Fermé pour le week-end',
-      detailLabel: 'Réouverture mardi à 09h00 (lundi fermé)',
+      detailLabel: 'Réouverture mardi à 10h00 (lundi fermé)',
       badgeColor: 'slate',
       currentDayName,
       currentDayIndex

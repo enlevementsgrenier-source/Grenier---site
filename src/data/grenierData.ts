@@ -44,32 +44,32 @@ export const OPENING_HOURS: OpeningHoursDay[] = [
   {
     day: 'Mardi',
     dayIndex: 2,
-    morning: '09h00 - 12h00',
-    afternoon: '14h30 - 18h30',
+    morning: '10h00 - 12h00',
+    afternoon: '13h30 - 17h30',
     isOpen: true,
     notes: 'Dépôts & Boutique ouverts'
   },
   {
     day: 'Mercredi',
     dayIndex: 3,
-    morning: '09h00 - 12h00',
-    afternoon: '14h30 - 18h30',
+    morning: '10h00 - 12h00',
+    afternoon: '13h30 - 17h30',
     isOpen: true,
     notes: 'Dépôts & Boutique ouverts'
   },
   {
     day: 'Jeudi',
     dayIndex: 4,
-    morning: '09h00 - 12h00',
-    afternoon: '14h30 - 18h30',
+    morning: '10h00 - 12h00',
+    afternoon: '13h30 - 17h30',
     isOpen: true,
     notes: 'Dépôts & Boutique ouverts'
   },
   {
     day: 'Vendredi',
     dayIndex: 5,
-    morning: '09h00 - 12h00',
-    afternoon: '14h30 - 18h30',
+    morning: '10h00 - 12h00',
+    afternoon: '13h30 - 17h30',
     isOpen: true,
     notes: 'Dépôts & Boutique ouverts'
   },
@@ -77,7 +77,7 @@ export const OPENING_HOURS: OpeningHoursDay[] = [
     day: 'Samedi',
     dayIndex: 6,
     morning: '10h00 - 12h00',
-    afternoon: '14h30 - 18h30',
+    afternoon: '13h30 - 17h30',
     isOpen: true,
     notes: 'Grande journée chine et dépôts'
   },
@@ -85,9 +85,9 @@ export const OPENING_HOURS: OpeningHoursDay[] = [
     day: 'Dimanche',
     dayIndex: 0,
     morning: null,
-    afternoon: '14h30 - 18h30',
+    afternoon: '13h30 - 17h30',
     isOpen: true,
-    notes: 'Ouvert tout l’après-midi pour chiner'
+    notes: 'Ouvert l’après-midi pour chiner'
   }
 ];
 

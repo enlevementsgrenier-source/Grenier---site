@@ -52,12 +52,13 @@ export interface SiteInfo {
   contact: {
     phone: string;
     phoneRaw: string;
+    emailContact?: string;
     emailEnlevements: string;
   };
   maps: {
     googleMapsUrl: string;
-    directionsUrl: string;
-    wazeUrl: string;
+    directionsUrl?: string;
+    wazeUrl?: string;
     lat: number;
     lng: number;
   };

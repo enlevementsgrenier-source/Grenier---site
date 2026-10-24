@@ -713,7 +713,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         {slot.isOpen && (
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                             <div>
-                              <label className="block text-[#6F6152] mb-1">Créneau matin (ex: 09h00 - 12h00) :</label>
+                              <label className="block text-[#6F6152] mb-1">Créneau matin (ex: 10h00 - 12h00) :</label>
                               <input
                                 type="text"
                                 value={slot.morning || ''}
@@ -731,11 +731,11 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                             </div>
 
                             <div>
-                              <label className="block text-[#6F6152] mb-1">Créneau après-midi (ex: 14h30 - 18h30) :</label>
+                              <label className="block text-[#6F6152] mb-1">Créneau après-midi (ex: 13h30 - 17h30) :</label>
                               <input
                                 type="text"
                                 value={slot.afternoon || ''}
-                                placeholder="Ex: 14h30 - 18h30"
+                                placeholder="Ex: 13h30 - 17h30"
                                 onChange={e => {
                                   const updatedHours = [...formData.openingHours];
                                   updatedHours[idx] = {
