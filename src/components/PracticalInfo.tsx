@@ -76,14 +76,14 @@ export const PracticalInfo: React.FC = () => {
                               {slot.morning ? `${slot.morning} & ` : ''}{slot.afternoon}
                             </span>
                             {slot.notes && (
-                              <p className="text-[11px] text-[#786C5E] hidden sm:block">
+                              <p className="text-[11px] text-[#786C5E]">
                                 {slot.notes}
                               </p>
                             )}
                           </div>
                         ) : (
                           <span className="text-[#887B6E] italic text-xs">
-                            Fermé au public (tri &amp; ateliers)
+                            {slot.notes || 'Fermé'}
                           </span>
                         )}
                       </div>

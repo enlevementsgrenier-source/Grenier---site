@@ -39,7 +39,7 @@ export const OPENING_HOURS: OpeningHoursDay[] = [
     morning: null,
     afternoon: null,
     isOpen: false,
-    notes: 'Fermé au public (journée dédiée au tri, réparations et ateliers)'
+    notes: 'Fermé'
   },
   {
     day: 'Mardi',
@@ -79,7 +79,7 @@ export const OPENING_HOURS: OpeningHoursDay[] = [
     morning: '10h00 - 12h00',
     afternoon: '13h30 - 17h30',
     isOpen: true,
-    notes: 'Grande journée chine et dépôts'
+    notes: 'Dépôts et boutique ouverts'
   },
   {
     day: 'Dimanche',
@@ -208,7 +208,7 @@ export const FAQS: FAQItem[] = [
   {
     category: 'don',
     question: 'Comment puis-je faire un don au Grenier de Mézos ?',
-    answer: 'Vous pouvez vous présenter directement au bric à brac (65 rue des artisans à Mézos) pendant nos heures d’ouverture de dépôt (du mardi au samedi + le dimanche après-midi). Notre équipe vous accueillera avec le sourire et vous aidera au déchargement de votre véhicule.'
+    answer: 'Vous avez 3 possibilités : venir directement au Grenier (Zone Artisanale à Mézos) pendant nos horaires de dépôt, déposer dans l’un de nos 3 containers en déchetterie (Lit-et-Mixe, Mimizan, Vielle), ou solliciter un enlèvement à domicile pour les gros volumes.'
   },
   {
     category: 'enlevement',

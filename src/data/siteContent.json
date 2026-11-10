@@ -33,7 +33,7 @@
       "morning": null,
       "afternoon": null,
       "isOpen": false,
-      "notes": "Fermé au public (journée dédiée au tri, réparations et ateliers)"
+      "notes": "Fermé"
     },
     {
       "day": "Mardi",
@@ -73,7 +73,7 @@
       "morning": "10h00 - 12h00",
       "afternoon": "13h30 - 17h30",
       "isOpen": true,
-      "notes": "Grande journée chine et dépôts"
+      "notes": "Dépôts et boutique ouverts"
     },
     {
       "day": "Dimanche",

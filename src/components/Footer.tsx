@@ -1,11 +1,24 @@
 import React from 'react';
-import { Phone, MapPin, Mail, ArrowUp, Heart } from 'lucide-react';
+import { Phone, MapPin, Mail, ArrowUp, Heart, ShieldCheck } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
 import { Logo } from './Logo';
 
-export const Footer: React.FC = () => {
+export type PageId = 'home' | 'dons' | 'mission' | 'faq' | 'mentions-legales';
+
+interface FooterProps {
+  onNavigate?: (page: PageId) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLinkClick = (page: PageId) => {
+    if (onNavigate) {
+      onNavigate(page);
+    }
+    scrollToTop();
   };
 
   return (
@@ -16,50 +29,64 @@ export const Footer: React.FC = () => {
           
           {/* Brand & mission */}
           <div className="lg:col-span-5 space-y-4">
-            <a href="#" className="inline-block py-1">
+            <button
+              onClick={() => handleLinkClick('home')}
+              className="inline-block py-1 text-left cursor-pointer"
+            >
               <Logo className="h-16 sm:h-20 w-auto" variant="light" />
-            </a>
+            </button>
 
             <p className="text-sm text-white/75 leading-relaxed max-w-sm">
-              Association loi 1901 engagée pour le réemploi citoyen, la réduction des déchets et la solidarité au cœur du Pays de Born et des Landes.
+              Association loi 1901 engagée pour le réemploi citoyen, la réduction des déchets et la solidarité au cœur du Pays de Born et des Landes. Modèle autonome sans subvention publique.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links - Pages */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="font-serif text-base font-bold text-white uppercase tracking-wider text-xs">
-              Navigation rapide
+              Pages du site
             </h4>
             <ul className="space-y-2 text-sm text-white/80">
               <li>
-                <a href="#infos-pratiques" className="hover:text-white transition">
-                  Horaires d'ouverture
-                </a>
+                <button
+                  onClick={() => handleLinkClick('home')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Accueil (Contacts &amp; Horaires)
+                </button>
               </li>
               <li>
-                <a href="#infos-pratiques" className="hover:text-white transition">
-                  Accès &amp; Google Maps
-                </a>
+                <button
+                  onClick={() => handleLinkClick('dons')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Page Dons (3 options de don)
+                </button>
               </li>
               <li>
-                <a href="#donner" className="hover:text-white transition">
-                  Déposer un don
-                </a>
+                <button
+                  onClick={() => handleLinkClick('mission')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Page Mission &amp; Impact
+                </button>
               </li>
               <li>
-                <a href="#enlevements" className="hover:text-white transition">
-                  Demande d'enlèvement
-                </a>
+                <button
+                  onClick={() => handleLinkClick('faq')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Page FAQ
+                </button>
               </li>
-              <li>
-                <a href="#valeurs" className="hover:text-white transition">
-                  Notre Mission &amp; Impact
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="hover:text-white transition">
-                  Questions fréquentes
-                </a>
+              <li className="pt-2 border-t border-white/10">
+                <button
+                  onClick={() => handleLinkClick('mentions-legales')}
+                  className="text-[#A3C9A8] hover:text-white transition text-left inline-flex items-center gap-1.5 cursor-pointer font-medium"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Mentions Légales</span>
+                </button>
               </li>
             </ul>
           </div>
@@ -67,7 +94,7 @@ export const Footer: React.FC = () => {
           {/* Contact Details Verified */}
           <div className="lg:col-span-4 space-y-4">
             <h4 className="font-serif text-base font-bold text-white uppercase tracking-wider text-xs">
-              Coordonnées
+              Coordonnées directes
             </h4>
 
             <div className="space-y-3 text-sm text-white/80">
@@ -76,6 +103,7 @@ export const Footer: React.FC = () => {
                 <div>
                   <div className="font-semibold text-white">Le Grenier de Mézos</div>
                   <div>{GRENIER_INFO.address.street}</div>
+                  <div className="text-xs text-white/60">{GRENIER_INFO.address.postalCode} {GRENIER_INFO.address.city}</div>
                 </div>
               </div>
 
@@ -117,7 +145,7 @@ export const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-xs text-[#A3C9A8] hover:text-white underline inline-flex items-center gap-1"
               >
-                <span>Fiche Google Maps</span>
+                <span>Itinéraire Google Maps</span>
               </a>
             </div>
           </div>
@@ -126,8 +154,15 @@ export const Footer: React.FC = () => {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/60">
-          <div>
-            © {new Date().getFullYear()} Le Grenier de Mézos. Tous droits réservés.
+          <div className="flex flex-wrap items-center gap-3">
+            <span>© {new Date().getFullYear()} Le Grenier de Mézos. Tous droits réservés.</span>
+            <span>&bull;</span>
+            <button
+              onClick={() => handleLinkClick('mentions-legales')}
+              className="text-[#A3C9A8] hover:text-white underline cursor-pointer"
+            >
+              Mentions Légales
+            </button>
           </div>
 
           <div className="flex items-center gap-1">
@@ -137,7 +172,7 @@ export const Footer: React.FC = () => {
 
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"
           >
             <span>Haut de page</span>
             <ArrowUp className="w-3.5 h-3.5" />

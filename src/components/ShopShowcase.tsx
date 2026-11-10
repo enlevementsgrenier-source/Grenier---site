@@ -138,7 +138,7 @@ export const ShopShowcase: React.FC = () => {
                   <div>
                     <strong className="text-[#1F3D2E]">100% de vos achats réinvestis localement</strong>
                     <p className="text-xs text-[#6B5F52] mt-0.5">
-                      Chaque euro finance des emplois d'insertion et des projets associatifs dans les Landes.
+                      Chaque euro finance des emplois en CDI locaux et les actions associatives dans les Landes.
                     </p>
                   </div>
                 </div>
