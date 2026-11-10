@@ -70,6 +70,10 @@ export const MentionsLegales: React.FC<MentionsLegalesProps> = ({ onNavigateHome
                   <span>{GRENIER_INFO.legalName} ({GRENIER_INFO.name})</span>
                 </li>
                 <li className="flex items-start gap-2">
+                  <span className="font-semibold w-40 text-[#1F3D2E] shrink-0">Numéro SIRET :</span>
+                  <span className="font-mono text-[#1F3D2E] font-medium tracking-wide">443 118 195 00041</span>
+                </li>
+                <li className="flex items-start gap-2">
                   <span className="font-semibold w-40 text-[#1F3D2E] shrink-0">Siège social :</span>
                   <span>{GRENIER_INFO.address.street}, {GRENIER_INFO.address.postalCode} {GRENIER_INFO.address.city} ({GRENIER_INFO.address.department})</span>
                 </li>
@@ -162,10 +166,7 @@ export const MentionsLegales: React.FC<MentionsLegalesProps> = ({ onNavigateHome
 
             <div className="space-y-3 text-sm text-[#4E4236] leading-relaxed">
               <p>
-                La structure générale du site, les textes, logos, slogans, illustrations, photographies des rayons et du bric-à-brac de Mézos sont la propriété exclusive de l'<strong>Association Le Grenier</strong> ou font l'objet d'une autorisation d'utilisation.
-              </p>
-              <p>
-                Toute reproduction, représentation, modification, publication ou adaptation totale ou partielle des éléments du site, quel que soit le moyen ou le procédé utilisé, est strictement interdite sans autorisation écrite préalable de l'association.
+                L'ensemble des contenus présents sur ce site (textes, visuels, logos, éléments graphiques) est protégé par le droit d'auteur et reste la propriété exclusive du Grenier de Mézos. Toute reproduction, représentation ou diffusion, en tout ou partie, sans accord écrit préalable est interdite.
               </p>
             </div>
           </section>

@@ -3,6 +3,8 @@ import { OpeningHoursDay, RecyclerieDepartment, FAQItem, ItemAcceptanceStatus } 
 export const GRENIER_INFO = {
   name: 'Le Grenier de Mézos',
   legalName: 'Association Le Grenier',
+  siret: '443 118 195 00041',
+  siretRaw: '44311819500041',
   tagline: 'Recyclerie & Ressourcerie Solidaire au cœur des Landes',
   description: 'Acteur incontournable de l’économie circulaire et solidaire dans le Pays de Born, Le Grenier de Mézos collecte, trie, valorise et redonne vie à vos objets du quotidien.',
   

@@ -38,6 +38,7 @@ export interface NoticeBanner {
 export interface SiteInfo {
   name: string;
   legalName: string;
+  siret?: string;
   tagline: string;
   description: string;
   address: {
