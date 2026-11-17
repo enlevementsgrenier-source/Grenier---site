@@ -11,6 +11,7 @@ import { SiteContentProvider } from './context/SiteContentContext';
 import { PageHome } from './pages/PageHome';
 import { PageDons } from './pages/PageDons';
 import { PageMission } from './pages/PageMission';
+import { PageBenevolat } from './pages/PageBenevolat';
 import { PageFAQ } from './pages/PageFAQ';
 import { MentionsLegales } from './components/MentionsLegales';
 
@@ -18,6 +19,7 @@ function parseHashToPage(hash: string): PageId {
   const clean = hash.replace(/^#\/?/, '').toLowerCase();
   if (clean === 'dons' || clean === 'donner' || clean === 'don') return 'dons';
   if (clean === 'mission' || clean === 'valeurs' || clean === 'impact') return 'mission';
+  if (clean === 'benevolat' || clean === 'benevole' || clean === 'devenir-benevole') return 'benevolat';
   if (clean === 'faq' || clean === 'questions') return 'faq';
   if (clean === 'mentions-legales' || clean === 'mentions' || clean === 'legal') return 'mentions-legales';
   return 'home';
@@ -69,6 +71,10 @@ export default function App() {
 
           {currentPage === 'mission' && (
             <PageMission onNavigate={navigateTo} />
+          )}
+
+          {currentPage === 'benevolat' && (
+            <PageBenevolat onNavigate={navigateTo} />
           )}
 
           {currentPage === 'faq' && (

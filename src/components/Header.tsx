@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Phone, Menu, X, Home, Package, HeartHandshake, HelpCircle } from 'lucide-react';
+import { Phone, Menu, X, Home, Package, HeartHandshake, HelpCircle, Users } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
 import { Logo } from './Logo';
 
-export type PageId = 'home' | 'dons' | 'mission' | 'faq' | 'mentions-legales';
+export type PageId = 'home' | 'dons' | 'mission' | 'benevolat' | 'faq' | 'mentions-legales';
 
 interface HeaderProps {
   currentPage: PageId;
@@ -22,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
     { id: 'home', label: 'Accueil & Horaires', icon: Home },
     { id: 'dons', label: 'Dons (3 options)', icon: Package },
     { id: 'mission', label: 'Notre Mission', icon: HeartHandshake },
+    { id: 'benevolat', label: 'Devenir bénévole', icon: Users },
     { id: 'faq', label: 'FAQ', icon: HelpCircle }
   ];
 
@@ -34,14 +35,14 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           {/* Logo / Brand */}
           <button
             onClick={() => handleNavClick('home')}
-            className="flex items-center py-1 group text-left cursor-pointer"
+            className="flex items-center py-1 group text-left cursor-pointer shrink-0"
             title="Le Grenier de Mézos - Retour à l'accueil"
           >
             <Logo className="h-14 sm:h-16 w-auto drop-shadow-xs group-hover:scale-105 transition-transform duration-200" />
           </button>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center gap-1.5 sm:gap-2">
+          <nav className="hidden lg:flex items-center gap-1 sm:gap-1.5">
             {navItems.map((item) => {
               const isActive = currentPage === item.id;
               const Icon = item.icon;
@@ -49,13 +50,13 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition ${
+                  className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition whitespace-nowrap shrink-0 cursor-pointer ${
                     isActive
                       ? 'bg-[#2D5A43] text-white shadow-xs'
                       : 'text-[#4A3E31] hover:bg-[#EAE2D5] hover:text-[#1F3D2E]'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#A3C9A8]' : 'text-[#7A6C5E]'}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#A3C9A8]' : 'text-[#7A6C5E]'}`} />
                   <span>{item.label}</span>
                 </button>
               );

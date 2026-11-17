@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Phone, MapPin, Mail, Sparkles, CheckCircle2, Copy, Check } from 'lucide-react';
+import { Phone, MapPin, Mail, Sparkles, CheckCircle2, Copy, Check, Users, ArrowRight } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onNavigateToVolunteer?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onNavigateToVolunteer }) => {
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -68,13 +72,25 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Action buttons (mobile phone shortcut) */}
-            <div className="flex flex-wrap items-center gap-4 pt-2 sm:hidden">
+            {/* Action buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              {onNavigateToVolunteer && (
+                <button
+                  type="button"
+                  onClick={onNavigateToVolunteer}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#2D5A43] text-white font-semibold text-sm sm:text-base shadow-sm hover:bg-[#204231] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A43] transition cursor-pointer whitespace-nowrap shrink-0 w-full sm:w-auto"
+                >
+                  <Users className="w-4 h-4 text-[#A3C9A8]" />
+                  <span>Devenir bénévole</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
+
               <a
                 href={`tel:${GRENIER_INFO.contact.phoneRaw}`}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#2D5A43] text-white font-semibold text-base shadow-sm active:scale-[0.98] transition w-full"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white border border-[#DECDBB] text-[#1F3D2E] font-semibold text-sm shadow-xs active:scale-[0.98] transition w-full sm:hidden"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4 text-[#2D5A43]" />
                 <span>Appeler : {GRENIER_INFO.contact.phone}</span>
               </a>
             </div>

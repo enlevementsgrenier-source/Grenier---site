@@ -2,9 +2,10 @@ import React from 'react';
 import { TreePine, Package, Calendar, ArrowRight, HeartHandshake } from 'lucide-react';
 import { ImpactValues } from '../components/ImpactValues';
 import { ShopShowcase } from '../components/ShopShowcase';
+import type { PageId } from '../components/Header';
 
 interface PageMissionProps {
-  onNavigate?: (page: 'home' | 'dons' | 'mission' | 'faq' | 'mentions-legales') => void;
+  onNavigate?: (page: PageId) => void;
 }
 
 export const PageMission: React.FC<PageMissionProps> = ({ onNavigate }) => {

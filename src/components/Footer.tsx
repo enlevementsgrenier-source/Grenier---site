@@ -2,8 +2,7 @@ import React from 'react';
 import { Phone, MapPin, Mail, ArrowUp, Heart, ShieldCheck } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
 import { Logo } from './Logo';
-
-export type PageId = 'home' | 'dons' | 'mission' | 'faq' | 'mentions-legales';
+import type { PageId } from './Header';
 
 interface FooterProps {
   onNavigate?: (page: PageId) => void;
@@ -69,6 +68,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   className="hover:text-white transition text-left cursor-pointer"
                 >
                   Page Mission &amp; Impact
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleLinkClick('benevolat')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Devenir bénévole (Formulaire)
                 </button>
               </li>
               <li>

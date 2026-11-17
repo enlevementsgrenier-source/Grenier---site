@@ -2,17 +2,22 @@ import React from 'react';
 import { Hero } from '../components/Hero';
 import { PracticalInfo } from '../components/PracticalInfo';
 import { PhotoCarousel } from '../components/PhotoCarousel';
+import { VolunteerCallout } from '../components/VolunteerCallout';
 import { Package, HeartHandshake, HelpCircle, ArrowRight } from 'lucide-react';
+import type { PageId } from '../components/Header';
 
 interface PageHomeProps {
-  onNavigate: (page: 'home' | 'dons' | 'mission' | 'faq' | 'mentions-legales') => void;
+  onNavigate: (page: PageId) => void;
 }
 
 export const PageHome: React.FC<PageHomeProps> = ({ onNavigate }) => {
   return (
     <div className="space-y-0">
       {/* Hero Section avec coordonnées vérifiées, contact direct & présentation */}
-      <Hero />
+      <Hero onNavigateToVolunteer={() => onNavigate('benevolat')} />
+
+      {/* Encart dédié : Devenez bénévole */}
+      <VolunteerCallout onNavigateToVolunteer={() => onNavigate('benevolat')} />
 
       {/* Horaires d'ouverture détaillés & Carte interactive */}
       <PracticalInfo />
