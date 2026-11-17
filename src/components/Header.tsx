@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Menu, X, Home, Package, HeartHandshake, HelpCircle, Users } from 'lucide-react';
-import { GRENIER_INFO } from '../data/grenierData';
+import { Menu, X, Home, Package, HeartHandshake, HelpCircle, Users } from 'lucide-react';
 import { Logo } from './Logo';
 
 export type PageId = 'home' | 'dons' | 'mission' | 'benevolat' | 'faq' | 'mentions-legales';
@@ -22,7 +21,6 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
     { id: 'home', label: 'Accueil & Horaires', icon: Home },
     { id: 'dons', label: 'Dons (3 options)', icon: Package },
     { id: 'mission', label: 'Notre Mission', icon: HeartHandshake },
-    { id: 'benevolat', label: 'Devenir bénévole', icon: Users },
     { id: 'faq', label: 'FAQ', icon: HelpCircle }
   ];
 
@@ -42,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           </button>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center gap-1 sm:gap-1.5">
+          <nav className="hidden lg:flex items-center gap-1.5 sm:gap-2">
             {navItems.map((item) => {
               const isActive = currentPage === item.id;
               const Icon = item.icon;
@@ -50,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition whitespace-nowrap shrink-0 cursor-pointer ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition whitespace-nowrap shrink-0 cursor-pointer ${
                     isActive
                       ? 'bg-[#2D5A43] text-white shadow-xs'
                       : 'text-[#4A3E31] hover:bg-[#EAE2D5] hover:text-[#1F3D2E]'
@@ -63,27 +61,32 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             })}
           </nav>
 
-          {/* Action CTAs */}
-          <div className="hidden sm:flex items-center gap-3">
-            <a
-              href={`tel:${GRENIER_INFO.contact.phoneRaw}`}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-[#2D5A43] text-white hover:bg-[#204231] shadow-xs transition"
-              title="Appeler la recyclerie"
+          {/* Action CTA : Devenez bénévole */}
+          <div className="hidden sm:flex items-center gap-3 shrink-0">
+            <button
+              type="button"
+              onClick={() => handleNavClick('benevolat')}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-xs transition cursor-pointer whitespace-nowrap shrink-0 ${
+                currentPage === 'benevolat'
+                  ? 'bg-[#1B3829] text-white ring-2 ring-[#A3C9A8]'
+                  : 'bg-[#2D5A43] text-white hover:bg-[#204231]'
+              }`}
             >
-              <Phone className="w-4 h-4 text-[#A5D8B3]" />
-              <span>{GRENIER_INFO.contact.phone}</span>
-            </a>
+              <Users className="w-4 h-4 text-[#A5D8B3] shrink-0" />
+              <span>Devenez bénévole</span>
+            </button>
           </div>
 
           {/* Mobile menu button */}
           <div className="flex items-center gap-2 lg:hidden">
-            <a
-              href={`tel:${GRENIER_INFO.contact.phoneRaw}`}
-              className="p-2 rounded-lg bg-[#EAE2D5] text-[#2D5A43]"
-              aria-label="Appeler Le Grenier"
+            <button
+              type="button"
+              onClick={() => handleNavClick('benevolat')}
+              className="inline-flex sm:hidden items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[#2D5A43] text-white hover:bg-[#204231] transition cursor-pointer whitespace-nowrap shrink-0"
             >
-              <Phone className="w-5 h-5" />
-            </a>
+              <Users className="w-3.5 h-3.5 text-[#A5D8B3]" />
+              <span>Devenez bénévole</span>
+            </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg text-[#4A3E31] hover:bg-[#EAE2D5] focus:outline-none cursor-pointer"
@@ -118,6 +121,17 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 </button>
               );
             })}
+            <button
+              onClick={() => handleNavClick('benevolat')}
+              className={`flex items-center gap-3 w-full p-3 rounded-xl text-left font-semibold text-sm transition mt-2 ${
+                currentPage === 'benevolat'
+                  ? 'bg-[#1B3829] text-white'
+                  : 'bg-[#2D5A43] text-white hover:bg-[#204231]'
+              }`}
+            >
+              <Users className="w-5 h-5 text-[#A5D8B3]" />
+              <span>Devenez bénévole</span>
+            </button>
           </nav>
         </div>
       )}

@@ -55,6 +55,7 @@ export interface SiteInfo {
     phoneRaw: string;
     emailContact?: string;
     emailEnlevements: string;
+    emailBenevolat?: string;
   };
   maps: {
     googleMapsUrl: string;

@@ -6,7 +6,8 @@ import {
   Copy,
   Check,
   AlertCircle,
-  ArrowLeft
+  ArrowLeft,
+  Loader2
 } from 'lucide-react';
 import { GRENIER_INFO } from '../data/grenierData';
 import type { PageId } from '../components/Header';
@@ -47,12 +48,16 @@ const INITIAL_FORM: FormState = {
 export const PageBenevolat: React.FC<PageBenevolatProps> = ({ onNavigate }) => {
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submitted, setSubmitted] = useState<{
-    applicantName: string;
-    body: string;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<{
+    message: string;
     mailtoHref: string;
+    body: string;
   } | null>(null);
+  const [submittedApplicant, setSubmittedApplicant] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+
+  const recipientEmail = GRENIER_INFO.contact.emailBenevolat || 'direction.grenier@gmail.com';
 
   const validate = (): FormErrors => {
     const nextErrors: FormErrors = {};
@@ -77,8 +82,10 @@ export const PageBenevolat: React.FC<PageBenevolatProps> = ({ onNavigate }) => {
     return nextErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -92,35 +99,129 @@ export const PageBenevolat: React.FC<PageBenevolatProps> = ({ onNavigate }) => {
         : "J'ai des compétences et des envies particulières (bricolage, livres, vêtements, etc.)";
 
     const lines = [
-      'Bonjour Florence et l’équipe du Grenier de Mézos,',
-      '',
-      'Je souhaite devenir bénévole au Grenier :',
       `Nom : ${form.lastName.trim()}`,
       `Prénom : ${form.firstName.trim()}`,
       `Commune : ${form.city.trim() || 'Non précisée'}`,
       `Email : ${form.email.trim()}`,
       `Téléphone : ${form.phone.trim()}`,
-      '',
-      `Comment je souhaite aider : ${helpLabel}`,
+      `Comment aider : ${helpLabel}`,
       ...(form.helpMode === 'competences' && form.skillsDetails.trim()
         ? [`Précisions : ${form.skillsDetails.trim()}`]
         : [])
     ];
+    const plainBody = lines.join('\n');
+    const subject = `Nouvelle demande bénévole - ${fullName}`;
+    const mailtoHref = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(plainBody)}`;
 
-    const body = lines.join('\n');
-    const subject = `Bénévolat au Grenier - ${fullName}`;
-    const mailtoHref = `mailto:${GRENIER_INFO.contact.emailContact}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setIsSubmitting(true);
 
-    setSubmitted({
-      applicantName: fullName,
-      body,
-      mailtoHref
-    });
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 10000);
+
+    try {
+      const web3FormsKey = '75a0e216-4961-42f6-b6a6-df2e79082533';
+
+      if (web3FormsKey) {
+        const formData = new FormData();
+        formData.append('access_key', web3FormsKey);
+        formData.append('subject', subject);
+        formData.append('from_name', 'Le Grenier de Mezos');
+        formData.append('name', fullName);
+        formData.append('email', form.email.trim());
+        formData.append('Nom', form.lastName.trim());
+        formData.append('Prenom', form.firstName.trim());
+        formData.append('Commune', form.city.trim() || 'Non precisee');
+        formData.append('Telephone', form.phone.trim());
+        formData.append('Participation', helpLabel);
+        if (form.helpMode === 'competences' && form.skillsDetails.trim()) {
+          formData.append('Competences', form.skillsDetails.trim());
+        }
+        formData.append('message', plainBody);
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json'
+          },
+          signal: controller.signal,
+          body: formData
+        });
+
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data?.success) {
+          throw new Error(data?.message || 'Erreur lors de l’envoi.');
+        }
+      } else {
+        const formData = new FormData();
+        formData.append('_subject', subject);
+        formData.append('_replyto', form.email.trim());
+        formData.append('_template', 'table');
+        formData.append('_captcha', 'false');
+        formData.append('name', fullName);
+        formData.append('email', form.email.trim());
+        formData.append('Nom', form.lastName.trim());
+        formData.append('Prénom', form.firstName.trim());
+        formData.append('Commune', form.city.trim() || 'Non précisée');
+        formData.append('Téléphone', form.phone.trim());
+        formData.append('Souhait de participation', helpLabel);
+        if (form.helpMode === 'competences' && form.skillsDetails.trim()) {
+          formData.append('Compétences et envies', form.skillsDetails.trim());
+        }
+
+        const response = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json'
+          },
+          signal: controller.signal,
+          body: formData
+        });
+
+        const data = await response.json().catch(() => null);
+        const isSuccess = Boolean(
+          response.ok && data && (data.success === true || data.success === 'true')
+        );
+
+        if (!isSuccess) {
+          const rawMsg = typeof data?.message === 'string' ? data.message : '';
+          if (/activ|confirm/i.test(rawMsg)) {
+            throw new Error('ACTIVATION_REQUIRED');
+          }
+          throw new Error(rawMsg || 'INVALID_RESPONSE');
+        }
+      }
+
+      setSubmittedApplicant(fullName);
+      setForm(INITIAL_FORM);
+    } catch (err: unknown) {
+      const isTimeout = err instanceof DOMException && err.name === 'AbortError';
+      const errMsg = err instanceof Error ? err.message : '';
+      let userMessage =
+        "L'envoi automatique n'a pas abouti. Vous pouvez réessayer ou envoyer votre demande directement via votre messagerie.";
+
+      if (isTimeout) {
+        userMessage =
+          "Le service d'envoi automatique met trop de temps à répondre. Vous pouvez réessayer ou envoyer votre demande en un clic par messagerie.";
+      } else if (errMsg === 'ACTIVATION_REQUIRED') {
+        userMessage = `Activation requise pour ${recipientEmail} : vérifiez la boîte de réception (et les spams) de ${recipientEmail} pour cliquer sur le lien d'activation FormSubmit, puis réessayez. En attendant, vous pouvez envoyer la demande ci-dessous par messagerie.`;
+      } else if (errMsg === 'INVALID_RESPONSE') {
+        userMessage = `Le relais d'envoi n'a pas confirmé la transmission vers ${recipientEmail} (activation ou clé Web3Forms requise). Vous pouvez envoyer votre demande directement ci-dessous.`;
+      }
+
+      setSubmitError({
+        message: userMessage,
+        mailtoHref,
+        body: plainBody
+      });
+    } finally {
+      window.clearTimeout(timeoutId);
+      setIsSubmitting(false);
+    }
   };
 
-  const handleCopy = () => {
-    if (!submitted) return;
-    navigator.clipboard.writeText(submitted.body);
+  const handleCopyFallback = () => {
+    if (!submitError) return;
+    navigator.clipboard.writeText(submitError.body);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -153,70 +254,35 @@ export const PageBenevolat: React.FC<PageBenevolatProps> = ({ onNavigate }) => {
       {/* Formulaire */}
       <section className="py-12 sm:py-16 bg-[#FAF7F2]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          {submitted ? (
-            <div className="bg-white rounded-3xl border border-[#BCD9C7] p-7 sm:p-10 shadow-xs space-y-6">
+          {submittedApplicant ? (
+            <div
+              role="status"
+              aria-live="polite"
+              className="bg-white rounded-3xl border border-[#BCD9C7] p-7 sm:p-10 shadow-xs space-y-6"
+            >
               <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-2xl bg-[#E8EFEA] text-[#2D5A43] flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#E8EFEA] text-[#2D5A43] flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E3024]">
-                    Merci {submitted.applicantName} !
+                    Merci {submittedApplicant} !
                   </h2>
-                  <p className="text-sm sm:text-base text-[#5A5045]">
-                    Votre message est prêt à être envoyé. Florence, notre bénévole en charge des bénévoles, vous rappellera très vite pour en savoir plus !
+                  <p className="text-sm sm:text-base text-[#5A5045] leading-relaxed">
+                    Votre demande a bien été envoyée par email à notre équipe. Florence, notre bénévole en charge des bénévoles, vous rappellera très prochainement pour en savoir plus !
                   </p>
                 </div>
               </div>
 
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF7F2] border border-[#E8DEC7] space-y-2.5">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8DEC7] pb-2 text-xs text-[#685A4C]">
-                  <span className="font-semibold uppercase tracking-wider">Récapitulatif</span>
-                  <span className="text-[#2D5A43] font-medium">{GRENIER_INFO.contact.emailContact}</span>
-                </div>
-                <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm text-[#3E342B] leading-relaxed">
-                  {submitted.body}
-                </pre>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href={submitted.mailtoHref}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#2D5A43] text-white font-semibold text-sm hover:bg-[#204231] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A43] transition whitespace-nowrap shrink-0"
-                >
-                  <Mail className="w-4 h-4 text-[#A3C9A8]" />
-                  <span>Envoyer par email</span>
-                </a>
-
+              <div className="pt-4 border-t border-[#F0E6D8] flex flex-wrap items-center justify-between gap-4">
+                <span className="text-xs text-[#685A4C]">{GRENIER_INFO.address.full}</span>
                 <button
                   type="button"
-                  onClick={handleCopy}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#FAF7F2] border border-[#DECDBB] text-[#1F3D2E] font-semibold text-sm hover:bg-[#EFE7DA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A43] transition cursor-pointer whitespace-nowrap shrink-0"
+                  onClick={() => setSubmittedApplicant(null)}
+                  className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#FAF7F2] border border-[#DECDBB] text-sm font-semibold text-[#1F3D2E] hover:bg-[#EFE7DA] transition cursor-pointer whitespace-nowrap shrink-0"
                 >
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4 text-[#2D5A43]" />
-                      <span>Copié</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4 text-[#5C5044]" />
-                      <span>Copier le message</span>
-                    </>
-                  )}
+                  Envoyer une autre demande
                 </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(null)}
-                  className="inline-flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-[#685A4C] hover:text-[#1F3D2E] hover:bg-[#F3ECE0] transition cursor-pointer whitespace-nowrap shrink-0"
-                >
-                  Modifier
-                </button>
-              </div>
-
-              <div className="pt-4 border-t border-[#F0E6D8] text-xs text-[#685A4C]">
-                <span>{GRENIER_INFO.address.full}</span>
               </div>
             </div>
           ) : (
@@ -423,14 +489,53 @@ export const PageBenevolat: React.FC<PageBenevolatProps> = ({ onNavigate }) => {
                   )}
                 </fieldset>
 
+                {submitError && (
+                  <div
+                    role="alert"
+                    className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 space-y-3"
+                  >
+                    <div className="flex items-start gap-2.5 text-sm">
+                      <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                      <span>{submitError.message}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <a
+                        href={submitError.mailtoHref}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#2D5A43] text-white text-xs font-semibold hover:bg-[#204231] transition"
+                      >
+                        <Mail className="w-3.5 h-3.5 text-[#A3C9A8]" />
+                        <span>Envoyer par messagerie ({recipientEmail})</span>
+                      </a>
+                      <button
+                        type="button"
+                        onClick={handleCopyFallback}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-amber-300 text-xs font-semibold text-amber-950 hover:bg-amber-100/60 transition cursor-pointer"
+                      >
+                        {copied ? <Check className="w-3.5 h-3.5 text-[#2D5A43]" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copied ? 'Copié' : 'Copier le message'}</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {/* Bouton envoi */}
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#2D5A43] text-white font-semibold text-sm sm:text-base hover:bg-[#204231] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A43] shadow-xs transition cursor-pointer whitespace-nowrap shrink-0"
+                    disabled={isSubmitting}
+                    className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#2D5A43] text-white font-semibold text-sm sm:text-base hover:bg-[#204231] disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A43] shadow-xs transition cursor-pointer whitespace-nowrap shrink-0"
                   >
-                    <Send className="w-4 h-4 text-[#A3C9A8]" />
-                    <span>Envoyer</span>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 text-[#A3C9A8] animate-spin" />
+                        <span>Envoi en cours...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 text-[#A3C9A8]" />
+                        <span>Envoyer</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

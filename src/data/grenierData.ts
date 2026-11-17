@@ -24,6 +24,7 @@ export const GRENIER_INFO = {
     phoneRaw: '+33558426500',
     emailContact: 'contact@grenier-mezos.fr',
     emailEnlevements: 'enlevements.grenier@gmail.com',
+    emailBenevolat: 'direction.grenier@gmail.com',
   },
   
   maps: {
